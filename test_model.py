@@ -2,14 +2,14 @@ import tensorflow as tf
 import numpy as np
 from tensorflow.keras.preprocessing import image
 
-# 1. Đường dẫn (Sửa cho đúng tên file của bạn)
+# 1. Đường dẫn 
 model_path = 'plant_disease_model.h5'
 img_path = 'dataset/test/Potato___Early_blight/3b1e3161-b02e-4aa0-a490-8a50c242d10e___RS_Early.B 8553.JPG'
 
 # 2. Load model
 model = tf.keras.models.load_model(model_path)
 
-# 3. Xử lý ảnh (Quan trọng: Kích thước phải giống lúc train, ví dụ 150x150)
+# 3. Xử lý ảnh (Quan trọng: Kích thước phải giống lúc train)
 img_size = (256, 256)
 img = image.load_img(img_path, target_size=img_size)
 img_array = image.img_to_array(img)
