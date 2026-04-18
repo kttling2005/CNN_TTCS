@@ -1,1 +1,3 @@
-Link model: https://drive.google.com/drive/folders/1H9sxkU8k4IAwyuf-gZS9cDB7ZldREArE?usp=sharing
+Link model của tôi: https://drive.google.com/file/d/1Wg3Ytj7UDUM6D-_4gJpv8uGSCqUViS38/view?usp=sharing
+
+Link model MobileNet được train dựa trên dataset của tôi: https://drive.google.com/file/d/1HW1ecxLbG7T18BTGEfX4Lqs-iR0RENOV/view?usp=sharing
