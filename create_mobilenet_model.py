@@ -37,5 +37,3 @@ history = model.fit(
 )
 
 model.save("plant_disease_model_mobileNetV2_v2.keras")
-
-model.save("plant_disease_model_mobilenet.keras")
