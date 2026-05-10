@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Plant Care - Pixel Edition</title>
+    <!-- Import Font Pixel -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            image-rendering: pixelated; /* Giúp ảnh không bị mờ khi scale */
+        }
+
+        body {
+            font-family: 'Press Start 2P', cursive;
+
+            background-image: url('https://i.pinimg.com/originals/d7/61/c3/d761c3372f8b77f4e8af2ceca1ad30d3.gif');
+
+            /* 2. Giữ ảnh cố định khi scroll */
+            background-attachment: fixed;
+
+            /* 3. Đảm bảo ảnh phủ kín màn hình */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            /* 4. Giữ nét cho ảnh pixel */
+            image-rendering: pixelated;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.65);
+            padding: 30px;
+            border: 4px solid #000;
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 550px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Hiệu ứng góc vuông đặc trưng pixel */
+        .container::after {
+            content: "";
+            position: absolute;
+            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            border: 2px solid #000;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .main-icon {
+            position: static !important;
+            font-size: 40px !important;
+            /* Đổi màu xanh lá ở đây */
+            color: #4ec031 !important;
+            /* Đổ bóng đen để giữ style Pixel */
+            filter: drop-shadow(1.5px 1.5px 0px #000);
+        }
+
+        /* Riêng icon ở giữa có thể cho màu xanh đậm hơn một chút để tạo điểm nhấn */
+        .scan-anim {
+            animation: scan-bounce 1.5s infinite ease-in-out;
+            color: #2d5a27 !important;
+        }
+
+        h1 {
+            color: #2d5a27;
+            font-size: 25px;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px #a8e0a4;
+        }
+
+        p { color: #444; margin-bottom: 20px; font-size: 10px; }
+
+        .upload-section {
+            border: 4px dashed #555;
+            padding: 30px;
+            background: #f9f9f9;
+            margin-bottom: 20px;
+        }
+
+        /* Custom Input File nhìn cho cute */
+        input[type="file"] {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 8px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        button {
+            background-color: #4ec031;
+            color: white;
+            border: 4px solid #000;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            box-shadow: 4px 4px 0px #2d5a27;
+            transition: all 0.1s;
+        }
+
+        button:active {
+            box-shadow: 0px 0px 0px #2d5a27;
+            transform: translate(4px, 4px);
+        }
+
+        button:hover { background-color: #63d644; }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e8f5e9;
+            border: 4px solid #2d5a27;
+            position: relative;
+        }
+
+        .result img {
+            max-width: 100%;
+            border: 4px solid #000;
+            margin-top: 15px;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #d32f2f;
+            font-size: 12px;
+            margin: 15px 0;
+            display: block;
+            background: #fff;
+            padding: 10px;
+            border: 2px solid #000;
+        }
+
+        .confidence {
+            color: #2d5a27;
+            font-size: 8px;
+        }
+
+        /* Icon cỏ cây pixel bay bay cho vui */
+        .decor { font-size: 20px; }
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body>
+    <div class="container">
+        <div class="decor">
+            <span class="material-symbols-outlined main-icon">potted_plant</span>
+            <span class="material-symbols-outlined main-icon scan-anim">search_check</span>
+            <span class="material-symbols-outlined main-icon">psychology</span>
+        </div>
+        <h1>LEAFSCAN AI</h1>
+        <p>[ PLANT DISEASE CLASSIFICATION USING CNN ]</p>
+
+        <div class="upload-section">
+            <form method="post" enctype="multipart/form-data">
+                <input type="file" name="image" accept="image/*" required>
+                <br><br>
+                <button type="submit">START ANALYSIS</button>
+            </form>
+        </div>
+
+        {% if prediction %}
+        <div class="result">
+            <p>--- ANALYSIS RESULT ---</p>
+            <div class="label">{{ prediction.replace('_', ' ').upper() }}</div>
+            <p class="confidence">ACCURACY: <strong>{{ confidence | round(2) }}%</strong></p>
+            <img src="{{ url_for('static', filename='uploads/' + image_path.split('/')[-1]) }}" alt="Scan result">
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
