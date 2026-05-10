@@ -1,0 +1,1 @@
+file ảnh sẽ được upload tại thư mục static/uploads này
