@@ -2,11 +2,18 @@ from flask import Flask, render_template, request
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image as keras_image
 import numpy as np
+import requests
 import os
 
 app = Flask(__name__)
 
-model = load_model("plant_disease_model.keras")
+model_url = "https://huggingface.co/bugbug05/CNN_plant_disease_model/resolve/main/plant_disease_model_v2.keras"
+if not os.path.exists("model.keras"):
+    r = requests.get(model_url)
+    with open("model.keras", "wb") as f:
+        f.write(r.content)
+
+model = load_model("model.keras")
 
 # Danh sách class
 classes = [
@@ -15,39 +22,39 @@ classes = [
     "Apple_cedar_apple_rust",
     "Apple_healthy",
     "Blueberry_healthy",
-    "Cherry_healthy",
     "Cherry_powdery_mildew",
+    "Cherry_healthy",
     "Corn_leaf_spot",
     "Corn_rust",
-    "Corn_healthy",
     "Corn_leaf_blight",
+    "Corn_healthy",
     "Grape_black_rot",
     "Grape_black_measles",
-    "Grape_healthy",
     "Grape_leaf_blight",
+    "Grape_healthy",
     "Orange_citrus_greening",
     "peach_bacterial_spot",
     "peach_healthy",
     "pepper_bacterial_spot",
     "pepper_healthy",
     "potato_early_blight",
-    "potato_healthy",
     "potato_late_blight",
+    "potato_healthy",
     "Raspberry_healthy",
     "Soybean_healthy",
     "Squash_powdery_mildew",
-    "Strawberry_healthy",
     "Strawberry_leaf_scorch",
+    "Strawberry_healthy",
     "Tomato_bacterial_spot",
     "Tomato_early_blight",
-    "Tomato_healthy",
     "Tomato_late_blight",
     "Tomato_leaf_mold",
     "Tomato_septoria_leaf_spot",
     "Tomato_spider_mites",
     "Tomato_target_spot",
+    "Tomato_yellow_leaf_curl_virus",
     "Tomato_moisaic_virus",
-    "Tomato_yellow_leaf_curl_virus"
+    "Tomato_healthy"
 ]
 
 UPLOAD_FOLDER = "static/uploads"
@@ -73,7 +80,6 @@ def index():
 
             file.save(filepath)
 
-            # Dùng hàm của Keras/TensorFlow thay cho PIL.Image.open
             img = keras_image.load_img(filepath, target_size=(150, 150))
             x = keras_image.img_to_array(img)
             x = np.expand_dims(x, axis=0) / 255.0
