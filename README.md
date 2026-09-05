@@ -25,12 +25,33 @@ Dự án được triển khai theo hai giai đoạn: nghiên cứu lý thuyết
 
 Mô hình CNN tự xây dựng đạt Training Accuracy khoảng 98–99%, trong khi Validation Accuracy đạt khoảng 92–94% và bắt đầu dao động từ epoch thứ 5, cho thấy dấu hiệu overfitting nhẹ — cơ chế Early Stopping đã giúp giữ lại bộ trọng số tốt nhất tại thời điểm này.
 
+**Mô hình CNN tự xây:**
+
+<p align="center">
+  <img src="images/accuracy_model_tu_xay.png" width="420" alt="Accuracy của mô hình tự xây" />
+  <img src="images/loss_model_tu_xay.png" width="420" alt="Loss của mô hình tự xây" />
+</p>
+
+**Mô hình MobileNetV2 (pretrained):**
+
+<p align="center">
+  <img src="images/accuracy_mobilenet.png" width="420" alt="Accuracy của mô hình MobileNetV2" />
+  <img src="images/loss_mobilenet.png" width="420" alt="Loss của mô hình MobileNetV2" />
+</p>
+
+Có thể thấy đường Validation của mô hình tự xây dao động khá mạnh sau epoch 5, trong khi MobileNetV2 hội tụ mượt và ổn định hơn nhiều — hai đường train/val gần như bám sát nhau.
+
 Trên tập test, kết quả so sánh giữa hai mô hình như sau:
 
 | Mô hình | Loss | Accuracy |
 |---|---|---|
 | Mô hình CNN tự xây | 0.3172 | 92.07% |
 | MobileNetV2 (pretrained) | 0.0876 | 97.06% |
+
+<p align="center">
+  <img src="images/accuracy_comparison_test.png" width="420" alt="So sánh Accuracy trên tập test" />
+  <img src="images/loss_comparison_test.png" width="420" alt="So sánh Loss trên tập test" />
+</p>
 
 MobileNetV2 cho kết quả vượt trội hơn về cả độ chính xác lẫn độ ổn định (khoảng cách giữa train/val accuracy gần như không đáng kể), nhờ đã được huấn luyện trước trên tập dữ liệu ImageNet lớn. Tuy vậy, mô hình CNN tự xây dựng — dù độ chính xác thấp hơn — vẫn đạt mức 92%, được đánh giá là chấp nhận được đối với một bài toán phân loại nhiều lớp có đặc trưng tương đồng, và mang lại giá trị học thuật lớn trong việc hiểu rõ cơ chế trích xuất đặc trưng của CNN.
 
